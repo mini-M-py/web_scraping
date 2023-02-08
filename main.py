@@ -3,6 +3,7 @@ from selenium import webdriver
 
 
 
+
 # Creat an instance of the FirefoxOptions class
 options = webdriver.FirefoxOptions()
 
@@ -36,18 +37,41 @@ common_list = product_list.find("div",{"class":"ant-row"})
 content_list = common_list.find("div",{"class":"ant-col-20 ant-col-push-4 side-right--Tyehf"})
 box = content_list.find("div",{"class":"box--ujueT"})
 grid_item = box.find_all("div",{"class":"gridItem--Yd0sa"})
+products_list = []
 for item in grid_item:
     item_box = item.find("div",{"class":"box--pRqdD"})
     box_inner = item_box.find("div",{"class":"inner--SODwy"})
     info = box_inner.find("div",{"class":"info--ifj7U"})
     title = info.find("div",{"class":"title--wFj93"}).text
     price = info.find("div",{"class":"price--NVB62"}).text
-    original_price = info.find("div",{"class":"priceExtra--ocAYk"}).text
-#printing data
+    original_price_element = info.find("div",{"class":"priceExtra--ocAYk"})
+    original_price = original_price_element.text if original_price_element else ""
+    if "-" in original_price:
+        original_price, discount = original_price.split("-")
+        original_price = original_price.replace("Rs.", "").strip()
+    else:
+        discount = ""
+    price = price.replace("Rs.", "").strip()
+    product = {
+        "title": title,
+        "current_price":price,
+        "original_price":original_price,
+        "discount": discount
+    }
+    products_list.append(product)
     print(f"""
-    name of product => {title}
-    original price => {original_price}
-    current price => {price}""")
+       name of product => {title}
+       original price => {original_price}
+       current price => {price}""")
     print("")
+min_price = float(input("Enter your budget range:Rs "))
+result = [ p for p in products_list if float(p["current_price"].replace(",","")) <= min_price]
+#printing data
+for product in result:
+    print(f"""
+    name of product =>{product["title"]}
+    discount => {product["discount"]}
+    product price =>Rs{product["current_price"]} including discount
+    """)
 #closing driver
 driver.quit()

@@ -1,9 +1,22 @@
 # web_scrapping
 This project uses BeautifulSoup and Selenium to extract product information (name, original price, and current price) from Daraz, a popular online shopping platform in Nepal.
+## Requirements
+1) BeautifulSoup
+2) Selenium
+3) lxml
 
+## Installation
+1) Install Python 3 on your system if you don't have it already.
+2) Clone this repository to your local system.
+3) Open terminal in the project folder.
+4) Run the following command to install the required packages:
+   1) pip install beautifulsoup
+   2) pip install lxml
+   3) pip install selenium
 ## Usages
-1) Run the scrip in terminal: main.py
-2) Enter the Url of the product you want to scrape from Daraz's official websites.
+1) Run the script in terminal: main.py
+2) Enter the URL of the product you want to scrape from Daraz's official websites.
+3) Enter your budget range and get list of product came under your budget range.
 
 ## Explanation of the code
 1) First the script creates an instance of the "FirefoxOptions" class and sets the browser to run on headless mode by adding "--headless" argument to the options.
